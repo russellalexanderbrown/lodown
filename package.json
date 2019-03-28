@@ -1,0 +1,22 @@
+{
+  "name": "lodown-russellalexanderbrown",
+  "version": "1.0.0",
+  "description": "lodown",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "istanbul cover _mocha -- test/ -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/russellalexanderbrown/lodown.git"
+  },
+  "author": "Russell Brown",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/russellalexanderbrown/lodown/issues"
+  },
+  "homepage": "https://github.com/russellalexanderbrown/lodown#readme"
+}
