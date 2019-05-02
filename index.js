@@ -248,10 +248,10 @@ _.map = function(col, fun) {
          toReturn.push(newValue);
      }
   } else {
-     for(var key in col) { //fix this
+     for(var key in col) { 
         let newValue = fun(col[key], key, col);
         toReturn.push(newValue);
-     } //fix this
+     } 
   }
   return toReturn;
 };
@@ -269,12 +269,15 @@ _.map = function(col, fun) {
 *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
 */
 
-_.indexOf = function(arr, func) {
+_.reject = function(arr, func) {
   let toReturn = [];
-  for (var i = 0; i<arr.length; i++) {
-      let newValue = func(arr[i],i,arr);
-      toReturn.push(newValue);
-  }
+  for (let i = 0; i < arr.length; i++) {
+      if (func(arr[i], i, arr) == true) {
+      } else {
+          toReturn.push(arr[i]);
+      }
+  }  
+  return toReturn;
 };
 
 /** _.partition
@@ -296,6 +299,19 @@ _.indexOf = function(arr, func) {
 }
 */
 
+_.partition = function(arr, func){
+  var truthy = [];
+  var falsey = [];
+  for(var i = 0; i < arr.length; i++){
+      if(func(arr[i])){
+          truthy.push(arr[i]);
+      }
+      else{
+          falsey.push(arr[i]);
+      }
+  }
+  return [truthy, falsey];
+};
 
 /** _.every
 * Arguments:
@@ -318,6 +334,21 @@ _.indexOf = function(arr, func) {
 *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
 */
 
+_.every = function(col, func){
+  if(func === undefined){
+      func = function(value, entry, col){
+          return value;
+      };
+      
+  } let result = true;
+    let gather = function(val, entry, col){
+      if(!func(val, entry, col)){
+          result = false;
+      }
+  };
+  _.each(col, gather);
+  return result;
+};
 
 /** _.some
 * Arguments:
@@ -340,7 +371,70 @@ _.indexOf = function(arr, func) {
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
 
-
+_.some = function(col, func){
+    if(func === undefined){
+        if(Array.isArray(col)){
+            for(let i = 0; i <= col.length; i++){
+                if(i == col.length){
+                    return false;
+                }
+                else{
+                    if(col[i]){
+                        return true;
+                    }
+                    else{
+                        continue;
+                    }
+                }
+            }
+        }
+        else if(typeof col === "object"){
+            let value = false;
+            for(var key in col){
+                if(col[key]){
+                    return true;
+                }
+                else{
+                    continue;
+                }
+            }
+            if(value === false){
+                return false;
+            }
+        }
+    }
+    else{
+        if(Array.isArray(col)){
+            for(let i = 0; i <= col.length; i++){
+                if(i == col.length){
+                    return false;
+                }
+                else{
+                    if(func(col[i], i, col)){
+                        return true;
+                    }
+                    else{
+                        continue;
+                    }
+                }
+            }
+        }
+        else if(typeof col === "object"){
+            let value = false;
+            for(var key in col){
+                if(func(col[key], key, col)){
+                    return true;
+                }
+                else{
+                    continue;
+                }
+            }
+            if(value === false){
+                return false;
+            }
+        }
+    }
+};
 /** _.pluck
 * Arguments:
 *   1) An array of objects
@@ -352,6 +446,9 @@ _.indexOf = function(arr, func) {
 *   _.pluck([{a: "one"}, {a: "two"}], "a") -> ["one", "two"]
 */
 
+_.pluck = function(arr, prop){
+    return _.map(arr, function(arr){return arr[prop]});
+};
 
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
